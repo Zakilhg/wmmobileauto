@@ -58,7 +58,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   try {
     const data = await client.fetch<SiteSettings | null>(siteSettingsQuery);
     return mergeSiteSettings(data);
-  } catch (error) {
+  } catch {
     return defaultSiteSettings;
   }
 }
@@ -98,7 +98,7 @@ export async function getServices(): Promise<Service[]> {
     });
 
     return merged.length ? merged : defaultServices;
-  } catch (error) {
+  } catch {
     return defaultServices;
   }
 }
@@ -115,7 +115,7 @@ export async function getFaqs(): Promise<Faq[]> {
       }))
       .filter((faq) => faq.question && faq.answer);
     return cleaned.length ? cleaned : defaultFaqs;
-  } catch (error) {
+  } catch {
     return defaultFaqs;
   }
 }
@@ -124,7 +124,7 @@ export async function getGallery(): Promise<GalleryItem[]> {
   try {
     const data = await client.fetch<GalleryItem[]>(galleryQuery);
     return data || [];
-  } catch (error) {
+  } catch {
     return [];
   }
 }
@@ -141,7 +141,7 @@ export async function getServiceAreas(): Promise<ServiceArea[]> {
       }))
       .filter((area) => area.city);
     return cleaned.length ? cleaned : defaultServiceAreas;
-  } catch (error) {
+  } catch {
     return defaultServiceAreas;
   }
 }
@@ -167,7 +167,7 @@ export async function getHours(): Promise<Hours> {
       title: cleanString(data.title) || defaultHours.title,
       schedule: hasSchedule ? schedule : defaultHours.schedule,
     };
-  } catch (error) {
+  } catch {
     return defaultHours;
   }
 }

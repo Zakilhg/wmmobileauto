@@ -37,6 +37,7 @@ export type GalleryItem = {
   category: ServiceType;
   description?: string;
   createdAt?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   image?: any;
 };
 

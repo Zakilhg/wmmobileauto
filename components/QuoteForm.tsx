@@ -48,7 +48,7 @@ export function QuoteForm() {
 
       form.reset();
       setStatus("success");
-    } catch (error) {
+    } catch {
       setErrorMessage("Something went wrong. Please try again.");
       setStatus("error");
     }
