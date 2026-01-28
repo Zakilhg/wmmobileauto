@@ -1,12 +1,13 @@
 export const dynamic = "force-dynamic";
 
 type Props = {
-  searchParams?: { error?: string; from?: string };
+  searchParams: Promise<{ error?: string; from?: string }>;
 };
 
-export default function StudioLoginPage({ searchParams }: Props) {
-  const error = searchParams?.error === "1";
-  const from = searchParams?.from || "/studio";
+export default async function StudioLoginPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const error = params?.error === "1";
+  const from = params?.from || "/studio";
 
   return (
     <div className="mx-auto flex min-h-screen max-w-lg items-center px-4 py-12">
@@ -44,7 +45,7 @@ export default function StudioLoginPage({ searchParams }: Props) {
             />
           </div>
           {error && (
-            <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300">
               Invalid credentials. Please try again.
             </p>
           )}
