@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Within Minutes Mobile Auto Repair
 
-## Getting Started
+Production-ready marketing site with Sanity CMS and Resend email.
 
-First, run the development server:
+## Local setup
+
+1) Install dependencies:
+
+```bash
+npm install
+```
+
+2) Create `.env.local` using `.env.example` as a guide.
+
+3) Run the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Sanity CMS setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1) Create a Sanity project and dataset:
+   - Go to `https://sanity.io`
+   - Create a project (choose a name like "Within Minutes")
+   - Create a dataset (ex: `production`)
 
-## Learn More
+2) Add the values to `.env.local`:
 
-To learn more about Next.js, take a look at the following resources:
+```
+SANITY_PROJECT_ID=yourProjectId
+SANITY_DATASET=production
+SANITY_API_VERSION=2025-01-01
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3) Run the Studio locally:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run dev
+```
 
-## Deploy on Vercel
+Open `http://localhost:3000/studio`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4) Add basic auth for `/studio`:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+STUDIO_USERNAME=yourUsername
+STUDIO_PASSWORD=yourPassword
+```
+
+## Content editing in /studio
+
+- **Services**: update descriptions, service lists, common issues, tint tiers.
+- **FAQs**: add/edit questions for mechanic and tint categories.
+- **Service Areas**: add/remove cities.
+- **Gallery**: upload mechanic or tint photos and add short descriptions.
+- **Hours**: update weekly schedule.
+- **Site Settings**: edit phone, email, hero text, CTA copy, and badges.
+
+## Resend email setup
+
+1) Create a Resend account and API key.
+2) Add your key to `.env.local`:
+
+```
+RESEND_API_KEY=yourKey
+EMAIL_TO=owner@domain.com
+```
+
+3) For production, add a verified sending domain in Resend and update the `from`
+   address in `app/api/quote/route.ts`.
+
+### DNS records for Resend
+
+Resend will provide DNS records to verify your sending domain:
+- **SPF** (TXT record)
+- **DKIM** (CNAME records)
+
+Add the records exactly as provided in your DNS provider.
+
+## Deploy to Vercel
+
+1) Push the repository to GitHub.
+2) Import the repo in Vercel.
+3) Add the environment variables from `.env.example`.
+4) Deploy.
+
+### Add a custom domain
+
+In Vercel:
+- Add the domain under Project Settings → Domains.
+- Update your DNS provider with the A/AAAA or CNAME record Vercel provides.
+
+## Adding gallery photos
+
+1) Go to `/studio` → Gallery Items.
+2) Upload an image and select a category (Mechanic or Tint).
+3) Add a short title and description.
+
+## Adding service areas
+
+1) Go to `/studio` → Service Areas.
+2) Add a city or neighborhood name.
+3) Save and publish.
+
