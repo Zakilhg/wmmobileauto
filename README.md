@@ -99,7 +99,7 @@ This is a production-ready marketing website for a mobile auto repair and window
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/wm-mobile-auto.git
+   git https://github.com/Zakilhg/wmmobileauto.git
    cd wm-mobile-auto
    ```
 
@@ -122,7 +122,7 @@ This is a production-ready marketing website for a mobile auto repair and window
 
    # Email
    EMAIL_TO=you@example.com
-   FROM_EMAIL=noreply@yourdomain.com
+   FROM_EMAIL=noreply@exmaple.com
    RESEND_API_KEY=re_xxxxx
 
    # Sanity
@@ -198,7 +198,7 @@ This project is private and not licensed for public use.
 
 ## Author
 
-Built by **Zakaria Lahgazi**
+Built by **Zakaria Lahgaz**
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://linkedin.com/in/yourprofile)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=flat-square&logo=github)](https://github.com/yourusername)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/zakarialahgaz/)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=flat-square&logo=github)](https://github.com/Zakilhg)
