@@ -51,7 +51,7 @@ This is a production-ready marketing website for a mobile auto repair and window
 - **Meta Tags** — Open Graph and Twitter cards configured
 
 ### Security
-- **Protected CMS** — Cookie-based authentication for Studio access
+- **Protected CMS** — Studio login with an HMAC-signed, expiring session cookie; locked if not configured
 - **Rate Limiting** — Prevents spam on quote form
 - **Input Validation** — Zod schemas for form data
 - **Honeypot Fields** — Bot protection without CAPTCHA
