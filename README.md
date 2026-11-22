@@ -136,6 +136,7 @@ This is a production-ready marketing website for a mobile auto repair and window
    # Studio Auth
    STUDIO_USERNAME=admin
    STUDIO_PASSWORD=your-password
+   STUDIO_SESSION_SECRET=at-least-32-random-characters  # /studio stays locked without it
    ```
 
 5. **Run the development server**
