@@ -4,10 +4,27 @@ import { quoteSchema } from "@/lib/validators/quote";
 import { BUSINESS_NAME, EMAIL_TO, PUBLIC_PHONE } from "@/lib/config";
 import { checkRateLimit } from "@/lib/rate-limit";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // Email sender - use your verified domain, fallback to Resend test domain
 const FROM_EMAIL = process.env.FROM_EMAIL || "onboarding@resend.dev";
+
+// Escape user input before putting it into email HTML.
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function escapeFields<T extends Record<string, unknown>>(data: T): T {
+  return Object.fromEntries(
+    Object.entries(data).map(([key, value]) => [
+      key,
+      typeof value === "string" ? escapeHtml(value) : value,
+    ]),
+  ) as T;
+}
 
 function getOwnerEmailHtml(data: {
   fullName: string;
@@ -190,6 +207,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Created per request so builds and imports don't need the key.
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip") ||
@@ -217,6 +237,7 @@ export async function POST(request: NextRequest) {
   }
 
   const data = parsed.data;
+  const safe = escapeFields(data);
   const ownerEmail = process.env.EMAIL_TO || EMAIL_TO;
   const fromAddress = `${BUSINESS_NAME} <${FROM_EMAIL}>`;
 
@@ -226,7 +247,7 @@ export async function POST(request: NextRequest) {
       from: fromAddress,
       to: ownerEmail,
       subject: `🚗 New Quote Request - ${data.fullName} (${data.serviceType === "mechanic" ? "Mechanic" : "Tint"})`,
-      html: getOwnerEmailHtml(data),
+      html: getOwnerEmailHtml(safe),
     });
   } catch (error) {
     console.error("Failed to send owner email:", error);
@@ -243,7 +264,7 @@ export async function POST(request: NextRequest) {
         from: fromAddress,
         to: data.email,
         subject: `We received your quote request - ${BUSINESS_NAME}`,
-        html: getCustomerEmailHtml(data, BUSINESS_NAME, PUBLIC_PHONE),
+        html: getCustomerEmailHtml(safe, BUSINESS_NAME, PUBLIC_PHONE),
       });
     } catch (error) {
       // Don't fail the request if customer email fails
